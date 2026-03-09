@@ -114,7 +114,7 @@ async function main() {
     #imi-map { width: 100%; height: 380px; background: #ffffff; }
     .leaflet-control-attribution { display: none !important; }
     .leaflet-control-zoom { display: none !important; }
-    .custom-tooltip { position: absolute; z-index: 9999; background: #fff; border: 1px solid #e4e4e4; box-shadow: 0 4px 16px rgba(0,0,0,0.10); padding: 10px 12px; width: 160px; display: none; pointer-events: none; }
+    .custom-tooltip { position: absolute; z-index: 9999; background: #fff; border: 1px solid #e4e4e4; box-shadow: 0 4px 16px rgba(0,0,0,0.10); padding: 10px 12px; width: 180px; display: none; pointer-events: none; overflow: hidden; }
     .popup-city { font-family: 'Roboto Condensed', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #111; margin-bottom: 4px; }
     .popup-addr { font-family: 'Libre Baskerville', serif; font-size: 11px; color: #777; line-height: 1.5; word-wrap: break-word; }
     .popup-hq { font-family: 'Roboto Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c71e1d; display: block; margin-bottom: 3px; }
