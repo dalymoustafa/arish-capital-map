@@ -145,7 +145,7 @@ async function main() {
     body { background: #fff; font-family: 'Libre Baskerville', serif; }
     .imi-map-widget { width: 100%; max-width: 960px; margin: 0 auto; }
     .map-label { font-family: 'Roboto Condensed', sans-serif; font-size: 12px; color: #888; margin-bottom: 6px; letter-spacing: 0.03em; }
-    #imi-map { width: 100%; height: 380px; background: #ffffff; }
+    #imi-map { width: 100%; height: 420px; margin-top: 80px; background: #ffffff; }
     .leaflet-popup-pane { overflow: visible !important; }
     .imi-map-widget { padding-top: 80px; }
     .leaflet-control-attribution { display: none !important; }
