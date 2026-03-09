@@ -167,9 +167,9 @@ async function main() {
           tooltip.style.top = (point.y + 16) + 'px';
         });
       });
-      map.setView([20, -20], 2);
+      map.setView([20, -20], 1);
     });
-  map.setView([20, -20], 2);
+  map.setView([20, -20], 1);
 <\/script>
 </body>
 </html>`;
