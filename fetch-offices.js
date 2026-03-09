@@ -114,18 +114,17 @@ async function main() {
     #imi-map { width: 100%; height: 380px; background: #ffffff; }
     .leaflet-control-attribution { display: none !important; }
     .leaflet-control-zoom { display: none !important; }
-    .leaflet-popup { max-width: 160px !important; }
-    .leaflet-popup-content-wrapper { max-width: 160px !important; border-radius: 0 !important; border: 1px solid #e4e4e4 !important; box-shadow: 0 4px 16px rgba(0,0,0,0.10) !important; }
-    .leaflet-popup-content { max-width: 140px !important; word-wrap: break-word; margin: 10px 12px !important; }
+    .custom-tooltip { position: absolute; z-index: 9999; background: #fff; border: 1px solid #e4e4e4; box-shadow: 0 4px 16px rgba(0,0,0,0.10); padding: 10px 12px; width: 160px; display: none; pointer-events: none; }
     .popup-city { font-family: 'Roboto Condensed', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #111; margin-bottom: 4px; }
-    .popup-addr { font-family: 'Libre Baskerville', serif; font-size: 11px; color: #777; line-height: 1.5; }
+    .popup-addr { font-family: 'Libre Baskerville', serif; font-size: 11px; color: #777; line-height: 1.5; word-wrap: break-word; }
     .popup-hq { font-family: 'Roboto Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c71e1d; display: block; margin-bottom: 3px; }
   </style>
 </head>
 <body>
-<div class="imi-map-widget">
+<div class="imi-map-widget" style="position:relative;">
   <p class="map-label">Headquarters' location in red</p>
   <div id="imi-map"></div>
+  <div class="custom-tooltip" id="custom-tooltip"></div>
 </div>
 <script>
   const OFFICES = ${JSON.stringify(offices, null, 2)};
@@ -154,13 +153,18 @@ async function main() {
     .then(geojson => {
       geojson.features = geojson.features.filter(f => f.properties.name !== "Antarctica");
       L.geoJSON(geojson, { style: { fillColor: "#ededed", fillOpacity: 1, color: "#cccccc", weight: 0.5 } }).addTo(map);
+      const tooltip = document.getElementById('custom-tooltip');
+      map.on('click', function() { tooltip.style.display = 'none'; });
+
       OFFICES.forEach(o => {
         const marker = L.marker([o.lat, o.lng], { icon: makeIcon(o.hq) }).addTo(map);
-        const popupContent = \`\${o.hq ? '<span class="popup-hq">Headquarters</span>' : ''}<div class="popup-city">\${o.city}</div><div class="popup-addr">\${o.address}</div>\`;
         marker.on('click', function(e) {
-          map.closePopup();
-          L.popup({ autoPan: false, offset: [0, -8] })
-            .setLatLng(e.latlng).setContent(popupContent).openOn(map);
+          L.DomEvent.stopPropagation(e);
+          const point = map.latLngToContainerPoint([o.lat, o.lng]);
+          tooltip.innerHTML = \`\${o.hq ? '<span class="popup-hq">Headquarters</span>' : ''}<div class="popup-city">\${o.city}</div><div class="popup-addr">\${o.address}</div>\`;
+          tooltip.style.display = 'block';
+          tooltip.style.left = (point.x - 80) + 'px';
+          tooltip.style.top = (point.y + 16) + 'px';
         });
       });
       map.setView([20, 10], 2);
